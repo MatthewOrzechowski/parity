@@ -17,7 +17,7 @@
 use std::cmp::max;
 
 const MIN_BC_CACHE_MB: u32 = 4;
-const MIN_DB_CACHE_MB: u32 = 2;
+const MIN_DB_CACHE_MB: u32 = 8;
 const MIN_BLOCK_QUEUE_SIZE_LIMIT_MB: u32 = 16;
 const DEFAULT_BLOCK_QUEUE_SIZE_LIMIT_MB: u32 = 40;
 const DEFAULT_TRACE_CACHE_SIZE: u32 = 20;
@@ -41,7 +41,7 @@ pub struct CacheConfig {
 
 impl Default for CacheConfig {
 	fn default() -> Self {
-		CacheConfig::new(32, 8, DEFAULT_BLOCK_QUEUE_SIZE_LIMIT_MB, DEFAULT_STATE_CACHE_SIZE)
+		CacheConfig::new(128, 8, DEFAULT_BLOCK_QUEUE_SIZE_LIMIT_MB, DEFAULT_STATE_CACHE_SIZE)
 	}
 }
 
@@ -68,9 +68,9 @@ impl CacheConfig {
 		}
 	}
 
-	/// Size of db cache for state.
-	pub fn db_state_cache_size(&self) -> u32 {
-		max(MIN_DB_CACHE_MB, self.db * 3 / 4)
+	/// Size of db cache.
+	pub fn db_cache_size(&self) -> u32 {
+		max(MIN_DB_CACHE_MB, self.db)
 	}
 
 	/// Size of block queue size limit
